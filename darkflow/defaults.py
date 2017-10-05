@@ -21,6 +21,7 @@ class argHandler(dict):
         self.define('verbalise', True, 'say out loud while building graph')
         self.define('train', False, 'train the whole net')
         self.define('load', '', 'how to initialize the net? Either from .weights or a checkpoint, or even from scratch')
+        self.define('restore', '', 'If loading from checkpoint, where to restore partial net? from .weights')
         self.define('savepb', False, 'save net and weight to a .pb file')
         self.define('gpu', 0.0, 'how much gpu (from 0.0 to 1.0)')
         self.define('gpuName', '/gpu:0', 'GPU device name')

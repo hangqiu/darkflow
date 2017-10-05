@@ -26,7 +26,7 @@ def loss(self, net_out):
     HW = H * W # number of grid cells
     anchors = m['anchors']
 
-    print('{} loss hyper-parameters:'.format(m['model']))
+    print('YOLO v2:{} loss hyper-parameters:'.format(m['model']))
     print('\tH       = {}'.format(H))
     print('\tW       = {}'.format(W))
     print('\tbox     = {}'.format(m['num']))
@@ -85,6 +85,8 @@ def loss(self, net_out):
     iou = tf.truediv(intersect, _areas + area_pred - intersect)
     best_box = tf.equal(iou, tf.reduce_max(iou, [2], True))
     best_box = tf.to_float(best_box)
+    # punish = best_box - 1.
+    # best_box = best_box + punish
     confs = tf.multiply(best_box, _confs)
 
     # take care of the weight terms

@@ -20,7 +20,7 @@ def loss(self, net_out):
     S, B, C = m['side'], m['num'], m['classes']
     SS = S * S # number of grid cells
 
-    print('{} loss hyper-parameters:'.format(m['model']))
+    print('YOLO: {} loss hyper-parameters:'.format(m['model']))
     print('\tside    = {}'.format(m['side']))
     print('\tbox     = {}'.format(m['num']))
     print('\tclasses = {}'.format(m['classes']))

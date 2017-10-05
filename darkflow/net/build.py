@@ -32,6 +32,7 @@ class TFNet(object):
 	to_darknet = help.to_darknet
 	build_train_op = help.build_train_op
 	load_from_ckpt = help.load_from_ckpt
+	restore_from_ckpt = help.restore_from_ckpt
 
 	def __init__(self, FLAGS, darknet = None):
 		self.ntrain = 0
@@ -56,8 +57,9 @@ class TFNet(object):
 
 		if darknet is None:	
 			darknet = Darknet(FLAGS)
-			self.ntrain = len(darknet.layers)
-
+			# self.ntrain = len(darknet.layers)
+			self.ntrain = 2
+			
 		self.darknet = darknet
 		args = [darknet.meta, FLAGS]
 		self.num_layer = len(darknet.layers)
@@ -146,9 +148,24 @@ class TFNet(object):
 		self.sess.run(tf.global_variables_initializer())
 
 		if not self.ntrain: return
-		self.saver = tf.train.Saver(tf.global_variables(), 
+		self.saver = tf.train.Saver(tf.global_variables(),
 			max_to_keep = self.FLAGS.keep)
-		if self.FLAGS.load != 0: self.load_from_ckpt()
+
+		print(tf.global_variables())
+		# self.saver = tf.train.Saver(max_to_keep=self.FLAGS.keep)
+
+		if self.FLAGS.load != 0:
+			print('loading from checkpoint')
+			self.load_from_ckpt()
+
+			# add restore conversion -- Hang
+		# if self.FLAGS.restore == str():
+		if self.FLAGS.restore:
+			# print('restoring weights from {}'.format(self.FLAGS.restore))
+			self.FLAGS.restore = int(self.FLAGS.restore)
+			# print('restoring weights from {}'.format(self.FLAGS.restore))
+			# exit(-1)
+			self.restore_from_ckpt()
 		
 		if self.FLAGS.summary is not None:
 			self.writer.add_graph(self.sess.graph)

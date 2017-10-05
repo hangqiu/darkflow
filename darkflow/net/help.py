@@ -31,7 +31,28 @@ def load_from_ckpt(self):
     load_point = '{}-{}'.format(load_point, self.FLAGS.load)
     self.say('Loading from {}'.format(load_point))
     try: self.saver.restore(self.sess, load_point)
-    except: load_old_graph(self, load_point)
+    except:
+        print("Checkpoint restore failed...")
+        load_old_graph(self, load_point)
+
+
+def restore_from_ckpt(self):
+    if self.FLAGS.restore < 0:  # load lastest ckpt
+        with open(self.FLAGS.backup + 'checkpoint', 'r') as f:
+            last = f.readlines()[-1].strip()
+            load_point = last.split(' ')[1]
+            load_point = load_point.split('"')[1]
+            load_point = load_point.split('-')[-1]
+            self.FLAGS.restore = int(load_point)
+
+    load_point = os.path.join(self.FLAGS.backup, self.meta['name'])
+    load_point = '{}-{}'.format(load_point, self.FLAGS.restore)
+    self.say('Restoring from {}'.format(load_point))
+    try:
+        self.saver.restore(self.sess, load_point)
+    except:
+        print("Checkpoint restore failed...")
+        load_old_graph(self, load_point)
 
 def say(self, *msgs):
     if not self.FLAGS.verbalise:

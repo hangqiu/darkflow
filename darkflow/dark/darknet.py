@@ -33,16 +33,27 @@ class Darknet(object):
         can be: None, FLAGS.model, or some other
         """
         self.src_bin = FLAGS.model + self._EXT
+        # print('Loading {} ...'.format(self.src_bin))
         self.src_bin = FLAGS.binary + self.src_bin
+        print('Loading {} ...'.format(self.src_bin))
         self.src_bin = os.path.abspath(self.src_bin)
         exist = os.path.isfile(self.src_bin)
 
         if FLAGS.load == str(): FLAGS.load = int()
+
         if type(FLAGS.load) is int:
             self.src_cfg = FLAGS.model
-            if FLAGS.load: self.src_bin = None
-            elif not exist: self.src_bin = None
+
+            if FLAGS.load:
+                print('1: load: {}'.format(FLAGS.load))
+                # print('temp change, loading the orginal weights: yolo.weights')
+                # self.src_bin = '../yolo/darknet/yolo.weights'
+                self.src_bin = None
+            elif not exist:
+                print('2: load: {}'.format(FLAGS.load))
+                self.src_bin = None
         else:
+            print('3: load: {}'.format(FLAGS.load))
             assert os.path.isfile(FLAGS.load), \
             '{} not found'.format(FLAGS.load)
             self.src_bin = FLAGS.load
@@ -79,6 +90,7 @@ class Darknet(object):
         start = time.time()
 
         args = [self.src_bin, self.src_layers]
+        # print('args: {}', args)
         wgts_loader = loader.create_loader(*args)
         for layer in self.layers: layer.load(wgts_loader)
         
