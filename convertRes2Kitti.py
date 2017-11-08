@@ -30,7 +30,7 @@ for name in names:
 	if name == names[len(names)-2]:
 		break;
 	filename += name + '.'
-# print(filename)	
+print(filename)	
 f = open(filename+'txt',"w")
 for obj in data:
 	# f.write(obj['label'] + ' 0 0 0 ' + str(obj['topleft']['x']))
