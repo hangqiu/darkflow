@@ -57,8 +57,11 @@ class TFNet(object):
 
 		if darknet is None:	
 			darknet = Darknet(FLAGS)
-			# self.ntrain = len(darknet.layers)
-			self.ntrain = 2
+			if (self.FLAGS.nTrain==-1):
+				self.ntrain = len(darknet.layers)
+			else:
+			# self.ntrain = 2
+				self.ntrain = self.FLAGS.nTrain
 			
 		self.darknet = darknet
 		args = [darknet.meta, FLAGS]
