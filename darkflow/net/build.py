@@ -36,6 +36,7 @@ class TFNet(object):
 
 	def __init__(self, FLAGS, darknet = None):
 		self.ntrain = 0
+		self.nRestore = 0
 
 		if isinstance(FLAGS, dict):
 			from ..defaults import argHandler
@@ -62,7 +63,8 @@ class TFNet(object):
 			else:
 			# self.ntrain = 2
 				self.ntrain = self.FLAGS.nTrain
-			
+		self.nRestore = self.FLAGS.nRestore
+
 		self.darknet = darknet
 		args = [darknet.meta, FLAGS]
 		self.num_layer = len(darknet.layers)
@@ -150,11 +152,30 @@ class TFNet(object):
 		self.sess = tf.Session(config = tf.ConfigProto(**cfg))
 		self.sess.run(tf.global_variables_initializer())
 
-		if not self.ntrain: return
 		self.saver = tf.train.Saver(tf.global_variables(),
-			max_to_keep = self.FLAGS.keep)
+									max_to_keep=self.FLAGS.keep)
 
-		print(tf.global_variables())
+		if not self.ntrain: return
+
+		if self.nRestore!=0:
+			# restore only part of the model from ckpt
+			# print(self.num_layer)
+			variables_to_restore = []
+			for layerNum in range(self.num_layer - int(self.nRestore), self.num_layer):
+				for var in tf.global_variables():
+					if var.name.startswith(str(layerNum)):
+						variables_to_restore.append(var)
+
+			print(variables_to_restore)
+			self.saver_Restore = tf.train.Saver(variables_to_restore)
+		else:
+			self.saver_Restore = self.saver
+		# print(tf.global_variables())
+
+
+
+
+		# exit()
 		# self.saver = tf.train.Saver(max_to_keep=self.FLAGS.keep)
 
 		if self.FLAGS.load != 0:

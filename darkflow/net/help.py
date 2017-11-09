@@ -49,7 +49,7 @@ def restore_from_ckpt(self):
     load_point = '{}-{}'.format(load_point, self.FLAGS.restore)
     self.say('Restoring from {}'.format(load_point))
     try:
-        self.saver.restore(self.sess, load_point)
+        self.saver_Restore.restore(self.sess, load_point)
     except:
         print("Checkpoint restore failed...")
         load_old_graph(self, load_point)
