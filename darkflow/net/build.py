@@ -158,7 +158,7 @@ class TFNet(object):
 
 		if not self.ntrain: return
 
-		if self.nRestore!=0:
+		if int(self.nRestore)!=0:
 			# restore only part of the model from ckpt
 			# print(self.num_layer)
 			variables_to_restore = []
