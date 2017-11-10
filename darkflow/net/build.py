@@ -92,6 +92,7 @@ class TFNet(object):
 		tf.import_graph_def(
 			graph_def,
 			name=""
+
 		)
 		with open(self.FLAGS.metaLoad, 'r') as fp:
 			self.meta = json.load(fp)
