@@ -157,6 +157,7 @@ class TFNet(object):
 									max_to_keep=self.FLAGS.keep)
 
 		if not self.ntrain: return
+
 		if int(self.FLAGS.restore)!=0:
 			if int(self.nRestore)!=0:
 				print("nRestore !=0, nRestore = " + self.nRestore)
@@ -174,6 +175,7 @@ class TFNet(object):
 				self.saver_Restore = self.saver
 		print("tf Global Variables")
 		print(tf.global_variables())
+
 
 
 
