@@ -21,7 +21,7 @@ class argHandler(dict):
         self.define('verbalise', True, 'say out loud while building graph')
         self.define('train', False, 'train the whole net')
         self.define('load', '', 'how to initialize the net? Either from .weights or a checkpoint, or even from scratch')
-        self.define('restore', '', 'If loading from checkpoint, where to restore partial net? from .weights')
+        self.define('restore', 0, 'If loading from checkpoint, where to restore partial net? from .weights')
         self.define('savepb', False, 'save net and weight to a .pb file')
         self.define('gpu', 0.0, 'how much gpu (from 0.0 to 1.0)')
         self.define('gpuName', '/gpu:0', 'GPU device name')
@@ -36,8 +36,8 @@ class argHandler(dict):
         self.define('saveVideo', False, 'Records video from input video or camera')
         self.define('pbLoad', '', 'path to .pb protobuf file (metaLoad must also be specified)')
         self.define('metaLoad', '', 'path to .meta file generated during --savepb that corresponds to .pb file')
-        self.define('nTrain', 2, 'number of layers trainable, defaulting to 2, meaning 1 layer')
-        self.define('nRestore', None, 'number of layers to restore from checkpoitn, defaulting to None')
+        self.define('nTrain', -1, 'number of layers trainable, defaulting to -1, training all layers')
+        self.define('nRestore', 0, 'number of layers to restore from checkpoitn, defaulting to 0, restoring all layers')
 
     def define(self, argName, default, description):
         self[argName] = default

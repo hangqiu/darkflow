@@ -157,12 +157,13 @@ class TFNet(object):
 									max_to_keep=self.FLAGS.keep)
 
 		if not self.ntrain: return
-		if self.FLAGS.restore:
-			if self.nRestore!=0:
+		if int(self.FLAGS.restore)!=0:
+			if int(self.nRestore)!=0:
+				print("nRestore !=0, nRestore = " + self.nRestore)
 				# restore only part of the model from ckpt
 				# print(self.num_layer)
 				variables_to_restore = []
-				for layerNum in range(self.num_layer - self.nRestore, self.num_layer):
+				for layerNum in range(self.num_layer - int(self.nRestore), self.num_layer):
 					for var in tf.global_variables():
 						if var.name.startswith(str(layerNum)):
 							variables_to_restore.append(var)
@@ -171,7 +172,8 @@ class TFNet(object):
 				self.saver_Restore = tf.train.Saver(variables_to_restore)
 			else:
 				self.saver_Restore = self.saver
-		# print(tf.global_variables())
+		print("tf Global Variables")
+		print(tf.global_variables())
 
 
 
@@ -185,8 +187,8 @@ class TFNet(object):
 
 			# add restore conversion -- Hang
 		# if self.FLAGS.restore == str():
-		if self.FLAGS.restore:
-			# print('restoring weights from {}'.format(self.FLAGS.restore))
+		if int(self.FLAGS.restore)!=0:
+			print('restoring weights from {}'.format(self.FLAGS.restore))
 			self.FLAGS.restore = int(self.FLAGS.restore)
 			# print('restoring weights from {}'.format(self.FLAGS.restore))
 			# exit(-1)
