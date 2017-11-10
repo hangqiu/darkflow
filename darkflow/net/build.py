@@ -156,20 +156,20 @@ class TFNet(object):
 									max_to_keep=self.FLAGS.keep)
 
 		if not self.ntrain: return
+		if self.FLAGS.restore:
+			if self.nRestore!=0:
+				# restore only part of the model from ckpt
+				# print(self.num_layer)
+				variables_to_restore = []
+				for layerNum in range(self.num_layer - self.nRestore, self.num_layer):
+					for var in tf.global_variables():
+						if var.name.startswith(str(layerNum)):
+							variables_to_restore.append(var)
 
-		if self.nRestore!=0:
-			# restore only part of the model from ckpt
-			# print(self.num_layer)
-			variables_to_restore = []
-			for layerNum in range(self.num_layer - int(self.nRestore), self.num_layer):
-				for var in tf.global_variables():
-					if var.name.startswith(str(layerNum)):
-						variables_to_restore.append(var)
-
-			print(variables_to_restore)
-			self.saver_Restore = tf.train.Saver(variables_to_restore)
-		else:
-			self.saver_Restore = self.saver
+				print(variables_to_restore)
+				self.saver_Restore = tf.train.Saver(variables_to_restore)
+			else:
+				self.saver_Restore = self.saver
 		# print(tf.global_variables())
 
 
