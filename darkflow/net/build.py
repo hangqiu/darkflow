@@ -160,7 +160,7 @@ class TFNet(object):
 
 		if int(self.FLAGS.restore)!=0:
 			if int(self.nRestore)!=0:
-				print("nRestore !=0, nRestore = " + self.nRestore)
+				print("nRestore !=0, nRestore = " + str(self.nRestore))
 				# restore only part of the model from ckpt
 				# print(self.num_layer)
 				variables_to_restore = []
