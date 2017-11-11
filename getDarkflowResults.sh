@@ -1,7 +1,7 @@
 #!/bin/bash
 MODEL=cfg/timevary_new.cfg
 WEIGHT=../yolo/darknet/yolo.weights
-NAMES=../yolo/darknet/data/Bellevue_TimeVary.names
+NAMES=./data/Bellevue_TimeVary.names
 EVALSET=$1
 RESDIR=$2
 CKPT=$3

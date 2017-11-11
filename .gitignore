@@ -44,3 +44,6 @@ ckpt/*
 
 #pytest cache
 .cache/
+*~
+data/*.~
+data/Bellevue_TimeVary.names~
