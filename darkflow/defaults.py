@@ -26,7 +26,7 @@ class argHandler(dict):
         self.define('gpu', 0.0, 'how much gpu (from 0.0 to 1.0)')
         self.define('gpuName', '/gpu:0', 'GPU device name')
         self.define('lr', 1e-5, 'learning rate')
-        self.define('keep',20,'Number of most recent training results to save')
+        self.define('keep',5,'Number of most recent training results to save')
         self.define('batch', 16, 'batch size')
         self.define('epoch', 1000, 'number of epoch')
         self.define('save', 2000, 'save checkpoint every ? training examples')
