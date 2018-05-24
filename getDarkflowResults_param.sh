@@ -9,14 +9,15 @@ CKPT=$3
 NRESTORE=$4
 CKPTPATH=$5
 GPU=$6
+BATCHSIZE=16
 
 mkdir $RESDIR
-echo flow --imgdir $EVALSET --backup $CKPTPATH --model $MODEL --load $WEIGHT --restore $CKPT --labels $NAMES --gpu $GPU --threshold 0.01 --json --nRestore $NRESTORE --nTrain -1
-flow --imgdir $EVALSET --backup $CKPTPATH --model $MODEL --load $WEIGHT --restore $CKPT --labels $NAMES --gpu $GPU --threshold 0.01 --json --nRestore $NRESTORE --nTrain -1
+echo flow --imgdir $EVALSET --backup $CKPTPATH --model $MODEL --load $WEIGHT --restore $CKPT --labels $NAMES --gpu $GPU --threshold 0.01 --json --nRestore $NRESTORE --nTrain -1 --batch $BATCHSIZE
+flow --imgdir $EVALSET --backup $CKPTPATH --model $MODEL --load $WEIGHT --restore $CKPT --labels $NAMES --gpu $GPU --threshold 0.01 --json --nRestore $NRESTORE --nTrain -1 --batch $BATCHSIZE
 
 ls $EVALSET/out/ | sed -e 's/\.json$//'| while read g;do
-	echo python3 convertRes2Kitti.py --json-res $EVALSET/out/$g.json --txt-res $RESDIR/$g.json.txt
-	python3 convertRes2Kitti.py --json-res $EVALSET/out/$g.json --txt-res $RESDIR/$g.json.txt
+	echo python3.5 convertRes2Kitti.py --json-res $EVALSET/out/$g.json --txt-res $RESDIR/$g.json.txt
+	python3.5 convertRes2Kitti.py --json-res $EVALSET/out/$g.json --txt-res $RESDIR/$g.json.txt
 done
 rm -r $EVALSET/out/
 
